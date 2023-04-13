@@ -1,6 +1,7 @@
 package com.github.igorpadilha980.filearchiver.data.filesystem.io;
 
 import com.github.igorpadilha980.filearchiver.data.FileDataSource;
+import com.github.igorpadilha980.filearchiver.data.filesystem.test.FileTestUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ public class FileDataWriterTest {
 
     @BeforeEach
     public void prepareForTest() throws IOException {
-        testFile = Files.createTempFile("test-" + String.valueOf(System.nanoTime()), null);
+        testFile = FileTestUtil.createTempFile();
         fileWriter = new FileDataWriter();
     }
 
@@ -37,7 +38,7 @@ public class FileDataWriterTest {
     @Test
     public void should_save_data_into_file() throws IOException {
         String dataSaved = "some text for test";
-        FileDataSource source = sourceFromString(dataSaved);
+        FileDataSource source = FileTestUtil.sourceFromString(dataSaved);
 
         fileWriter.write(source, testFile);
 

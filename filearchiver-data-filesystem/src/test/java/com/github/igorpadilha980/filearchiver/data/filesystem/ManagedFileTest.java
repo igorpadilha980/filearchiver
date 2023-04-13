@@ -3,16 +3,16 @@ package com.github.igorpadilha980.filearchiver.data.filesystem;
 import com.github.igorpadilha980.filearchiver.data.filesystem.io.FileDataWriter;
 import com.github.igorpadilha980.filearchiver.data.filesystem.test.FileTestUtil;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ManagedFileTest {
 
@@ -48,4 +48,27 @@ public class ManagedFileTest {
         assertEquals(writtenData, dataToWrite);
     }
 
+    @Test
+    public void throws_exception_if_null_parameter_on_constructor() {
+        assertThrows(NullPointerException.class, () -> {
+           new ManagedFile(null, null, null);
+        });
+    }
+
+    @Test
+    public void should_return_true_if_file_is_same() {
+        ManagedFile m0 = new ManagedFile(fileId, tempFile, new FileDataWriter());
+
+
+        assertTrue(managedFile.isSame(m0));
+    }
+
+    @Test
+    public void should_return_false_if_file_is_different() {
+        FileDataWriter writerMock = Mockito.mock(FileDataWriter.class);
+
+        ManagedFile m1 = new ManagedFile(UUID.randomUUID(), Path.of("."), writerMock);
+
+        assertFalse(managedFile.isSame(m1));
+    }
 }

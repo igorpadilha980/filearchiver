@@ -5,6 +5,7 @@ import com.github.igorpadilha980.filearchiver.data.filesystem.io.FileDataWriter;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.UUID;
 
 class ManagedFile {
@@ -15,9 +16,9 @@ class ManagedFile {
     private final FileDataWriter fileWriter;
 
     public ManagedFile(UUID id, Path filePath, FileDataWriter fileWriter) {
-        this.id = id;
-        this.filePath = filePath;
-        this.fileWriter = fileWriter;
+        this.id = Objects.requireNonNull(id);
+        this.filePath = Objects.requireNonNull(filePath);
+        this.fileWriter = Objects.requireNonNull(fileWriter);
     }
 
     void write(FileDataSource data) throws IOException {
@@ -26,6 +27,10 @@ class ManagedFile {
 
     public UUID fileId() {
         return id;
+    }
+
+    boolean isSame(ManagedFile other) {
+        return id.equals(other.id) && filePath.equals(other.filePath);
     }
 
 }

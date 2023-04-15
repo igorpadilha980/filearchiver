@@ -24,6 +24,7 @@ public class FileTestUtil {
         int dataLength = random.nextInt(100, 300);
         byte[] bytes = new byte[dataLength];
 
+        random.nextBytes(bytes);
         return () -> new ByteArrayInputStream(bytes);
     }
 

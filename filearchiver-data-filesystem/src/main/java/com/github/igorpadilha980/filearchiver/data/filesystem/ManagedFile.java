@@ -4,6 +4,7 @@ import com.github.igorpadilha980.filearchiver.data.FileDataSource;
 import com.github.igorpadilha980.filearchiver.data.filesystem.io.FileDataWriter;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,6 +28,10 @@ class ManagedFile {
 
     public UUID fileId() {
         return id;
+    }
+
+    public void delete() throws IOException {
+        Files.delete(filePath);
     }
 
     boolean isSame(ManagedFile other) {

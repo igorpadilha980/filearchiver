@@ -71,4 +71,12 @@ public class ManagedFileTest {
 
         assertFalse(managedFile.isSame(m1));
     }
+
+    @Test
+    public void should_delete_file() throws IOException {
+        managedFile.delete();
+
+        boolean fileDeleted = Files.notExists(tempFile);
+        assertTrue(fileDeleted);
+    }
 }

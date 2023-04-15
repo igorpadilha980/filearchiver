@@ -5,6 +5,7 @@ import com.github.igorpadilha980.filearchiver.data.FileDataSource;
 import com.github.igorpadilha980.filearchiver.data.FileServiceException;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 public class FilesystemDataService implements FileDataService {
@@ -37,6 +38,13 @@ public class FilesystemDataService implements FileDataService {
 
     @Override
     public void deleteSource(UUID sourceId) throws FileServiceException {
+        Optional<ManagedFile> searchResult = managedDirectory.findFile(sourceId);
+        ManagedFile sourceFile = searchResult.orElseThrow(() -> new FileServiceException("could not delete source, file not found"));
 
+        try {
+            sourceFile.delete();
+        } catch(IOException e) {
+            throw new FileServiceException("could not delete source", e);
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,6 +61,26 @@ public class FilesystemDataServiceTest {
 
         assertThrows(FileServiceException.class, () -> {
            service.storeData(FileTestUtil.randomDataSource());
+        });
+    }
+
+    @Test
+    public void should_delete_stored_source() throws IOException, FileServiceException {
+        UUID mockId = UUID.randomUUID();
+
+        ManagedFile fileMock = mock();
+        when(directory.findFile(mockId)).thenReturn(Optional.of(fileMock));
+
+        service.deleteSource(mockId);
+        verify(fileMock, times(1)).delete();
+    }
+
+    @Test
+    public void throws_exception_if_try_to_delete_non_existing_source() {
+        when(directory.findFile(any())).thenReturn(Optional.empty());
+
+        assertThrows(FileServiceException.class, () -> {
+            service.deleteSource(UUID.randomUUID());
         });
     }
 }

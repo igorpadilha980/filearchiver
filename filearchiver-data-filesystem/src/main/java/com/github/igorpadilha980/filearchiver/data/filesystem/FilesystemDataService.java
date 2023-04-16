@@ -24,26 +24,37 @@ public class FilesystemDataService implements FileDataService {
             file = managedDirectory.newFile();
             file.write(fileSource);
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new FileServiceException("could not store data into filesystem file", e);
         }
 
         return file.fileId();
     }
 
+    private ManagedFile fileOrThrow(UUID fileId, String exceptionMessage) throws FileServiceException {
+        Optional<ManagedFile> searchResult = managedDirectory.findFile(fileId);
+
+        return searchResult.orElseThrow(() -> new FileServiceException(exceptionMessage));
+    }
+
     @Override
     public FileDataSource dataFrom(UUID sourceId) throws FileServiceException {
-        return null;
+        ManagedFile sourceFile = fileOrThrow(sourceId, "could not read file, file not found");
+
+        try {
+            return sourceFile.read();
+        } catch (IOException e) {
+            throw new FileServiceException("fail to read file");
+        }
     }
 
     @Override
     public void deleteSource(UUID sourceId) throws FileServiceException {
-        Optional<ManagedFile> searchResult = managedDirectory.findFile(sourceId);
-        ManagedFile sourceFile = searchResult.orElseThrow(() -> new FileServiceException("could not delete source, file not found"));
+        ManagedFile sourceFile = fileOrThrow(sourceId, "could not delete source, file not found");
 
         try {
             sourceFile.delete();
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new FileServiceException("could not delete source", e);
         }
     }

@@ -26,29 +26,29 @@ public class FilesystemDataServiceTest {
     @Mock
     private ManagedDirectory directory;
 
+    @Mock
+    private ManagedFile file;
+
     @InjectMocks
     private FilesystemDataService service;
 
     @Test
     public void should_create_and_store_data_into_file() throws FileServiceException, IOException {
         UUID id = UUID.randomUUID();
-        ManagedFile fileMock = Mockito.mock(ManagedFile.class);
 
-        when(fileMock.fileId()).thenReturn(id);
-        when(directory.newFile()).thenReturn(fileMock);
+        when(file.fileId()).thenReturn(id);
+        when(directory.newFile()).thenReturn(file);
 
         UUID savedFileId = service.storeData(FileTestUtil.randomDataSource());
 
-        verify(fileMock, times(1)).write(any());
+        verify(file, times(1)).write(any());
         assertEquals(id, savedFileId);
     }
 
     @Test
     public void throws_exception_if_fail_to_write_data_to_file() throws IOException {
-        ManagedFile fileMock = Mockito.mock(ManagedFile.class);
-        doThrow(IOException.class).when(fileMock).write(any());
-
-        when(directory.newFile()).thenReturn(fileMock);
+        doThrow(IOException.class).when(file).write(any());
+        when(directory.newFile()).thenReturn(file);
 
         assertThrows(FileServiceException.class, () -> {
            service.storeData(FileTestUtil.randomDataSource());
@@ -68,11 +68,10 @@ public class FilesystemDataServiceTest {
     public void should_delete_stored_source() throws IOException, FileServiceException {
         UUID mockId = UUID.randomUUID();
 
-        ManagedFile fileMock = mock();
-        when(directory.findFile(mockId)).thenReturn(Optional.of(fileMock));
+        when(directory.findFile(mockId)).thenReturn(Optional.of(file));
 
         service.deleteSource(mockId);
-        verify(fileMock, times(1)).delete();
+        verify(file, times(1)).delete();
     }
 
     @Test
@@ -81,6 +80,35 @@ public class FilesystemDataServiceTest {
 
         assertThrows(FileServiceException.class, () -> {
             service.deleteSource(UUID.randomUUID());
+        });
+    }
+
+    @Test
+    public void should_read_data_from_source() throws IOException, FileServiceException {
+        UUID fileId = UUID.randomUUID();
+        when(directory.findFile(fileId)).thenReturn(Optional.of(file));
+
+        FileDataSource producedSource = service.dataFrom(fileId);
+        verify(file, times(1)).read();
+    }
+
+    @Test
+    public void throws_exception_if_read_non_existing_source() {
+        assertThrows(FileServiceException.class, () -> {
+            when(directory.findFile(any())).thenReturn(Optional.empty());
+            service.dataFrom(UUID.randomUUID());
+        });
+    }
+
+    @Test
+    public void throws_exception_if_fail_to_read_source() throws IOException {
+        UUID fileId = UUID.randomUUID();
+
+        when(directory.findFile(fileId)).thenReturn(Optional.of(file));
+        when(file.read()).thenThrow(IOException.class);
+
+        assertThrows(FileServiceException.class, () -> {
+           service.dataFrom(fileId);
         });
     }
 }

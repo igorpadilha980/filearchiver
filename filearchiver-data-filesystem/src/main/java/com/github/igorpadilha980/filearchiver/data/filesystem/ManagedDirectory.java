@@ -10,11 +10,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public class ManagedDirectory {
+class ManagedDirectory {
 
     private Path directoryPath;
 
-    public ManagedDirectory(Path directoryPath) {
+    ManagedDirectory(Path directoryPath) {
         Objects.requireNonNull(directoryPath);
 
         if(Files.notExists(directoryPath) || !Files.isDirectory(directoryPath))

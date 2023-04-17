@@ -18,7 +18,7 @@ class ManagedFile {
     private final FileDataWriter fileWriter;
     private final FileDataReader fileReader;
 
-    public ManagedFile(UUID id, Path filePath, FileDataWriter fileWriter, FileDataReader fileReader) {
+    ManagedFile(UUID id, Path filePath, FileDataWriter fileWriter, FileDataReader fileReader) {
         this.id = Objects.requireNonNull(id);
         this.filePath = Objects.requireNonNull(filePath);
         this.fileWriter = Objects.requireNonNull(fileWriter);

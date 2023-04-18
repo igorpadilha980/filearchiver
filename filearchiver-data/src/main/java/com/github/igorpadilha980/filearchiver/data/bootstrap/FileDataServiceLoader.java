@@ -15,10 +15,8 @@ import java.util.Properties;
  * To customize the generated instance is possible to pass configuration parameters
  * via {@link #configure(Properties)}
  *
- * @see #FileDataServiceLoader()
- *
  * @author Igor Padilha
- *
+ * @see #FileDataServiceLoader()
  */
 public class FileDataServiceLoader {
 
@@ -56,9 +54,8 @@ public class FileDataServiceLoader {
      * Loads and instantiate an implementation of {@link FileDataService} using
      * the current configuration of this loader
      *
-     * @see #configure(Properties)
-     *
      * @return new service instance
+     * @see #configure(Properties)
      */
     public FileDataService load() {
         FileDataServiceFactory factory = factoryResolver.resolveImplementation();

@@ -1,6 +1,7 @@
 package com.github.igorpadilha980.filearchiver.data.bootstrap;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
@@ -9,7 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,7 +38,7 @@ public class FileDataServiceFactoryResolverTest {
     public void should_resolve_factory_implementation() {
         when(serviceLoaderMock.findFirst()).thenReturn(Optional.of(mock()));
 
-        FileDataServiceFactory resolvedImpl =  resolver.resolveImplementation();
+        FileDataServiceFactory resolvedImpl = resolver.resolveImplementation();
 
         assertNotNull(resolvedImpl);
     }

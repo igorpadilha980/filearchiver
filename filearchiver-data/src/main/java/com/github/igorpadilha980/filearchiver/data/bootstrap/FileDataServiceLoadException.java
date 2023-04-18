@@ -5,7 +5,6 @@ package com.github.igorpadilha980.filearchiver.data.bootstrap;
  * and instance of {@link com.github.igorpadilha980.filearchiver.data.FileDataService}
  *
  * @author Igor Padilha
- *
  */
 public class FileDataServiceLoadException extends RuntimeException {
 

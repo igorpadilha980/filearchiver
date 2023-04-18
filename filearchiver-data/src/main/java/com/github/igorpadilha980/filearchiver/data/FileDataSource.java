@@ -7,24 +7,23 @@ import java.nio.file.Path;
 
 /**
  * A gateway for file data access
- * 
+ *
  * @author Igor Padilha
  */
 @FunctionalInterface
 public interface FileDataSource {
-	
-	static FileDataSource fromFile(Path filePath) {
-		return () -> Files.newInputStream(filePath);
-	}
-	
-	/**
-	 * Returns a new {@link InputStream} for file data
-	 * streaming
-	 * 
-	 * @throws IOException on fail to open resource
-	 * 
-	 * @return file data
-	 */
-	InputStream inputStream() throws IOException; 
+
+    static FileDataSource fromFile(Path filePath) {
+        return () -> Files.newInputStream(filePath);
+    }
+
+    /**
+     * Returns a new {@link InputStream} for file data
+     * streaming
+     *
+     * @return file data
+     * @throws IOException on fail to open resource
+     */
+    InputStream inputStream() throws IOException;
 
 }

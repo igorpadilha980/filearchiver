@@ -2,7 +2,7 @@ import com.github.igorpadilha980.filearchiver.data.bootstrap.FileDataServiceFact
 import com.github.igorpadilha980.filearchiver.data.filesystem.FilesystemDataServiceFactory;
 
 module filearchiver.data.filesystem {
-    requires filearchiver.data;
+    requires transitive filearchiver.data;
 
     exports com.github.igorpadilha980.filearchiver.data.filesystem;
 

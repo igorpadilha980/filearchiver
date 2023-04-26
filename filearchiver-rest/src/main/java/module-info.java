@@ -1,7 +1,8 @@
-module filearchiver.rest {
+open module filearchiver.rest {
     requires spring.boot;
     requires spring.boot.autoconfigure;
 
+    requires spring.core;
     requires spring.web;
     requires spring.beans;
     requires spring.context;

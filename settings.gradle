@@ -2,3 +2,4 @@ rootProject.name = 'filearchiver'
 
 include 'filearchiver-data'
 include 'filearchiver-data-filesystem'
+include 'filearchiver-rest'

@@ -7,6 +7,7 @@ open module filearchiver.rest {
     requires spring.beans;
     requires spring.context;
     requires spring.data.commons;
+    requires spring.tx;
 
     requires jakarta.persistence;
 

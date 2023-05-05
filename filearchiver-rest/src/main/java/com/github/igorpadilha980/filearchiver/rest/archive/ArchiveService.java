@@ -47,13 +47,13 @@ public class ArchiveService {
     }
 
     @Transactional
-    public FileMetadata archive(FileInfo fileInfo, InputStream source) {
+    public FileInfo archive(FileInfo fileInfo, InputStream source) {
         UUID sourceId = storeDataOrThrow(source);
 
         FileMetadata metadata = fileInfo.toMetadata(sourceId);
         FileMetadata savedMetadata = metadataService.store(metadata);
 
-        return savedMetadata;
+        return FileInfo.fromMetadata(savedMetadata);
     }
 
     public FileInfo info(UUID archiveId) {
